@@ -58,8 +58,7 @@ return {
         enable_git_status = true,
         enable_diagnostics = true,
         window = {
-          position = "left",
-          width = 30,
+          position = "float",
           mappings = {
             ["<space>"] = { "toggle_node", nowait = false },
             ["a"] = { "add", config = { show_path = "relative" } },
