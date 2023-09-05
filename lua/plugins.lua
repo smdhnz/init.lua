@@ -156,6 +156,7 @@ return {
     },
     config = function()
       require("toggleterm").setup({
+        size = vim.o.lines * 0.5,
         direction = "horizontal",
       })
 
