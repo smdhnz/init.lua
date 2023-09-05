@@ -28,14 +28,16 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd([[colorscheme tokyonight]])
-
-      vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-        pattern = { "*" },
-        callback = function()
-          vim.api.nvim_command("highlight Comment guifg=#9595c5")
-        end,
+      require("tokyonight").setup({
+        styles = {
+          comments = { italic = false },
+          keywords = { italic = false },
+        },
+        hide_inactive_statusline = true,
+        dim_inactive = true,
+        lualine_bold = true,
       })
+      vim.cmd([[colorscheme tokyonight-moon]])
     end,
   },
 
