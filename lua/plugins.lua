@@ -211,7 +211,8 @@ return {
 			require("lsp-setup").setup({
 				default_mappings = false,
 				mappings = {
-					["f"] = "lua vim.lsp.buf.hover()",
+					["F"] = "lua vim.lsp.buf.hover()",
+					["f"] = "lua vim.diagnostic.open_float()",
 					["[d"] = "lua vim.diagnostic.goto_prev()",
 					["]d"] = "lua vim.diagnostic.goto_next()",
 				},
@@ -327,10 +328,20 @@ return {
 						format_on_save = false,
 					},
 				},
-				format_on_save = {
-					lsp_fallback = true,
-					timeout_ms = 500,
-				},
+			})
+
+			-- Format asynchronously on save
+			vim.api.nvim_create_autocmd("BufWritePost", {
+				pattern = "*",
+				callback = function(args)
+					require("conform").format({ async = true, lsp_fallback = true, bufnr = args.buf }, function(err)
+						if not err then
+							vim.api.nvim_buf_call(args.buf, function()
+								vim.cmd.update()
+							end)
+						end
+					end)
+				end,
 			})
 		end,
 	},
