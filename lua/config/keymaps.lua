@@ -30,3 +30,25 @@ map(
 	"<CMD>let @/ = '\\<' . expand('<cword>') . '\\>'<CR><CMD>set hlsearch<CR>",
 	{ desc = "Highlight", silent = true }
 )
+map("n", "n", "nzz", { silent = true })
+map("n", "N", "Nzz", { silent = true })
+
+-- paste
+map("n", "p", "]p", { silent = true })
+map("n", "P", "]P", { silent = true })
+
+-- redo
+map("n", "U", "<C-r>", { silent = true })
+
+-- jump right left
+map("n", "H", "^", { noremap = true, silent = true })
+map("x", "H", "^", { noremap = true, silent = true })
+map("n", "L", "$", { noremap = true, silent = true })
+map("x", "L", "$", { noremap = true, silent = true })
+
+-- insert date
+map("n", "<F3>", '<ESC>i<C-R>=strftime("%Y/%m/%d")<CR><CR><ESC>', { silent = true })
+map("i", "<F3>", '<C-R>=strftime("%Y/%m/%d")<CR>', { silent = true })
+
+-- replace :s
+vim.cmd([[cnoreabbrev <expr> s getcmdtype() .. getcmdline() ==# ":s" ? "%s///g<Left><Left>" : "s"]])
