@@ -44,12 +44,12 @@ opt.timeoutlen = 500
 vim.o.signcolumn = "yes"
 vim.diagnostic.config({
 	underline = true,
-	virtual_text = true,
+	virtual_text = false,
 })
-vim.fn.sign_define("DiagnosticSignError", { text = "🟥" })
-vim.fn.sign_define("DiagnosticSignWarn", { text = "🟨" })
-vim.fn.sign_define("DiagnosticSignInfo", { text = "🟦" })
-vim.fn.sign_define("DiagnosticSignHint", { text = "🟩" })
+-- vim.fn.sign_define("DiagnosticSignError", { text = "🔴" })
+-- vim.fn.sign_define("DiagnosticSignWarn", { text = "🟠" })
+-- vim.fn.sign_define("DiagnosticSignInfo", { text = "🟡" })
+-- vim.fn.sign_define("DiagnosticSignHint", { text = "🟢" })
 
 -- Disable certain builtins
 g.loaded_netrw = 1
