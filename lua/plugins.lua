@@ -322,11 +322,6 @@ return {
 					lua = { "stylua" },
 					javascript = { "prettier_d", "prettier" },
 					typescript = { "prettier_d", "prettier" },
-					python = {
-						formatters = { "isort", "black" },
-						run_all_formatters = true,
-						format_on_save = false,
-					},
 				},
 			})
 
