@@ -241,7 +241,7 @@ return {
 		lazy = false,
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/vim-vsnip",
+			-- "hrsh7th/vim-vsnip",
 			"hrsh7th/cmp-path",
 			"hrsh7th/cmp-buffer",
 		},
@@ -249,39 +249,39 @@ return {
 			local cmp = require("cmp")
 
 			local lsp_symbols = {
-				Text = "   (Text) ",
-				Method = "   (Method)",
-				Function = "   (Function)",
-				Constructor = "   (Constructor)",
-				Field = " ﴲ  (Field)",
-				Variable = "[] (Variable)",
-				Class = "   (Class)",
-				Interface = " ﰮ  (Interface)",
-				Module = "   (Module)",
-				Property = " 襁 (Property)",
-				Unit = "   (Unit)",
-				Value = "   (Value)",
-				Enum = " 練 (Enum)",
-				Keyword = "   (Keyword)",
-				Snippet = "   (Snippet)",
-				Color = "   (Color)",
-				File = "   (File)",
-				Reference = "   (Reference)",
-				Folder = "   (Folder)",
-				EnumMember = "   (EnumMember)",
-				Constant = " ﲀ  (Constant)",
-				Struct = " ﳤ  (Struct)",
-				Event = "   (Event)",
-				Operator = "   (Operator)",
-				TypeParameter = "   (TypeParameter)",
+				Text = "[Text]",
+				Method = "[Method]",
+				Function = "[Function]",
+				Constructor = "[Constructor]",
+				Field = "[Field]",
+				Variable = "[Variable]",
+				Class = "[Class]",
+				Interface = "[Interface]",
+				Module = "[Module]",
+				Property = "[Property]",
+				Unit = "[Unit]",
+				Value = "[Value]",
+				Enum = "[Enum]",
+				Keyword = "[Keyword]",
+				Snippet = "[Snippet]",
+				Color = "[Color]",
+				File = "[File]",
+				Reference = "[Reference]",
+				Folder = "[Folder]",
+				EnumMember = "[EnumMember]",
+				Constant = "[Constant]",
+				Struct = "[Struct]",
+				Event = "[Event]",
+				Operator = "[Operator]",
+				TypeParameter = "[TypeParameter]",
 			}
 
 			cmp.setup({
-				snippet = {
-					expand = function(args)
-						vim.fn["vsnip#anonymous"](args.body)
-					end,
-				},
+				-- snippet = {
+				-- 	expand = function(args)
+				-- 		vim.fn["vsnip#anonymous"](args.body)
+				-- 	end,
+				-- },
 				sources = {
 					{ name = "nvim_lsp" },
 					{ name = "path" },
@@ -301,7 +301,6 @@ return {
 						item.menu = ({
 							buffer = "[Buffer]",
 							nvim_lsp = "[LSP]",
-							luasnip = "[Snippet]",
 							path = "[Path]",
 						})[entry.source.name]
 						return item
