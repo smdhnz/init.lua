@@ -161,8 +161,7 @@ return {
 		},
 		config = function()
 			require("toggleterm").setup({
-				size = vim.o.lines * 0.5,
-				direction = "horizontal",
+				direction = "float",
 			})
 
 			vim.api.nvim_create_autocmd({ "TermEnter" }, {
