@@ -219,11 +219,15 @@ return {
 					["[d"] = "lua vim.diagnostic.goto_prev()",
 					["]d"] = "lua vim.diagnostic.goto_next()",
 				},
-				on_attach = function() end,
+				on_attach = function(client, bufnr) end,
 				capabilities = vim.lsp.protocol.make_client_capabilities(),
 				servers = {
-					tsserver = {},
-					tailwindcss = {},
+					tsserver = {
+						filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+					},
+					tailwindcss = {
+						filetypes = { "typescriptreact", "typescript.tsx" },
+					},
 					lua_ls = {
 						settings = {
 							Lua = {
@@ -233,6 +237,54 @@ return {
 							},
 						},
 					},
+				},
+			})
+		end,
+	},
+
+	-----------------------------------------------------------------------------
+	{
+		"jose-elias-alvarez/null-ls.nvim",
+		lazy = false,
+		config = function()
+			local null_ls = require("null-ls")
+			local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
+			local event = "BufWritePre" -- or "BufWritePost"
+			local async = event == "BufWritePost"
+
+			null_ls.setup({
+				on_attach = function(client, bufnr)
+					vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+					vim.api.nvim_create_autocmd(event, {
+						buffer = bufnr,
+						group = group,
+						callback = function()
+							vim.lsp.buf.format({ bufnr = bufnr, async = async })
+						end,
+						desc = "[lsp] format on save",
+					})
+				end,
+			})
+		end,
+	},
+
+	-----------------------------------------------------------------------------
+
+	{
+		"MunifTanjim/prettier.nvim",
+		lazy = false,
+		config = function()
+			require("prettier").setup({
+				bin = "prettierd",
+				filetypes = {
+					"css",
+					"javascript",
+					"javascriptreact",
+					"typescript",
+					"typescriptreact",
+					"json",
+					"scss",
+					"less",
 				},
 			})
 		end,
@@ -318,32 +370,4 @@ return {
 	},
 
 	-----------------------------------------------------------------------------
-
-	{
-		"stevearc/conform.nvim",
-		lazy = false,
-		config = function()
-			require("conform").setup({
-				formatters_by_ft = {
-					lua = { "stylua" },
-					javascript = { "prettier_d", "prettier" },
-					typescript = { "prettier_d", "prettier" },
-				},
-			})
-
-			-- Format asynchronously on save
-			vim.api.nvim_create_autocmd("BufWritePost", {
-				pattern = "*",
-				callback = function(args)
-					require("conform").format({ async = true, lsp_fallback = true, bufnr = args.buf }, function(err)
-						if not err then
-							vim.api.nvim_buf_call(args.buf, function()
-								vim.cmd.update()
-							end)
-						end
-					end)
-				end,
-			})
-		end,
-	},
 }
