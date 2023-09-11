@@ -223,6 +223,7 @@ return {
 				capabilities = vim.lsp.protocol.make_client_capabilities(),
 				servers = {
 					tsserver = {},
+					tailwindcss = {},
 					lua_ls = {
 						settings = {
 							Lua = {
