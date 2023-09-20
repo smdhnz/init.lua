@@ -77,6 +77,7 @@ return {
         filesystem = {
           filtered_items = {
             hide_by_name = { "node_modules" },
+            hide_gitignored = false,
           },
           window = {
             mappings = {
@@ -282,6 +283,7 @@ return {
               nvim_lsp = "[LSP]",
               path = "[Path]",
               luasnip = "[Snippet]",
+              bootstrap = "[Bootstrap]",
             })[entry.source.name]
             return item
           end,
@@ -321,7 +323,6 @@ return {
         fallback_formatter = {
           formatters.remove_trailing_whitespace,
           formatters.remove_trailing_newlines,
-          formatters.prettierd,
         },
       })
     end
