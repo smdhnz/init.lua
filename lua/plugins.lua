@@ -1,14 +1,9 @@
 return {
-
-  -----------------------------------------------------------------------------
-
   {
     "numToStr/Comment.nvim",
     lazy = false,
-    config = true,
+    opts = {},
   },
-
-  -----------------------------------------------------------------------------
 
   {
     "phaazon/hop.nvim",
@@ -16,12 +11,8 @@ return {
     keys = {
       { "s", "<CMD>HopWord<CR>", silent = true, noremap = true },
     },
-    config = function()
-      require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
-    end,
+    opts = { keys = "etovxqpdygfblzhckisuran" },
   },
-
-  -----------------------------------------------------------------------------
 
   {
     "folke/tokyonight.nvim",
@@ -41,8 +32,6 @@ return {
     end,
   },
 
-  -----------------------------------------------------------------------------
-
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -54,65 +43,57 @@ return {
     keys = {
       { "e", "<CMD>Neotree<CR>", silent = true, noremap = true },
     },
-    config = function()
-      require("neo-tree").setup({
-        close_if_last_window = true,
-        enable_git_status = true,
-        enable_diagnostics = true,
+    opts = {
+      close_if_last_window = true,
+      enable_git_status = true,
+      enable_diagnostics = true,
+      window = {
+        position = "float",
+        mappings = {
+          ["<space>"] = { "toggle_node", nowait = false },
+          ["a"] = { "add", config = { show_path = "relative" } },
+          ["d"] = "delete",
+          ["m"] = "move",
+          ["y"] = "copy_to_clipboard",
+          ["x"] = "cut_to_clipboard",
+          ["p"] = "paste_from_clipboard",
+          ["e"] = "close_window",
+          ["<"] = "prev_source",
+          [">"] = "next_source",
+        },
+      },
+      filesystem = {
+        filtered_items = {
+          hide_by_name = { "node_modules" },
+          hide_gitignored = false,
+        },
         window = {
-          position = "float",
           mappings = {
-            ["<space>"] = { "toggle_node", nowait = false },
-            ["a"] = { "add", config = { show_path = "relative" } },
-            ["d"] = "delete",
-            ["m"] = "move",
-            ["y"] = "copy_to_clipboard",
-            ["x"] = "cut_to_clipboard",
-            ["p"] = "paste_from_clipboard",
-            ["e"] = "close_window",
-            ["<"] = "prev_source",
-            [">"] = "next_source",
+            ["."] = "toggle_hidden",
+            ["u"] = "navigate_up",
+            ["o"] = "set_root",
           },
         },
-        filesystem = {
-          filtered_items = {
-            hide_by_name = { "node_modules" },
-            hide_gitignored = false,
-          },
-          window = {
-            mappings = {
-              ["."] = "toggle_hidden",
-              ["u"] = "navigate_up",
-              ["o"] = "set_root",
-            },
-          },
-        },
-      })
-    end,
+      },
+    },
   },
-
-  -----------------------------------------------------------------------------
 
   {
     "lewis6991/gitsigns.nvim",
     lazy = false,
-    config = function()
-      require("gitsigns").setup({
-        signs = {
-          add = { text = "+" },
-          change = { text = "~" },
-          delete = { text = "_" },
-          topdelete = { text = "‾" },
-          changedelete = { text = "~" },
-        },
-        signcolumn = true,
-        numhl = true,
-        linehl = true,
-      })
-    end,
+    opts = {
+      signs = {
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
+      },
+      signcolumn = true,
+      numhl = true,
+      linehl = true,
+    },
   },
-
-  -----------------------------------------------------------------------------
 
   {
     "kdheepak/lazygit.nvim",
@@ -126,33 +107,27 @@ return {
     end,
   },
 
-  -----------------------------------------------------------------------------
-
   {
     "nvim-lualine/lualine.nvim",
     lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("lualine").setup({
-        options = {
-          icons_enabled = true,
-          theme = "auto",
-          component_separators = { left = "", right = "" },
-          section_separators = { left = "", right = "" },
-          sections = {
-            lualine_a = { "mode" },
-            lualine_b = { "branch", "diff", "diagnostics" },
-            lualine_c = { { "filename", path = 1 } },
-            lualine_x = { "encoding", "fileformat", "filetype" },
-            lualine_y = { "progress" },
-            lualine_z = { "location" },
-          },
+    opts = {
+      options = {
+        icons_enabled = true,
+        theme = "auto",
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch", "diff", "diagnostics" },
+          lualine_c = { { "filename", path = 1 } },
+          lualine_x = { "encoding", "fileformat", "filetype" },
+          lualine_y = { "progress" },
+          lualine_z = { "location" },
         },
-      })
-    end,
+      },
+    },
   },
-
-  -----------------------------------------------------------------------------
 
   {
     "akinsho/toggleterm.nvim",
@@ -174,8 +149,6 @@ return {
     end,
   },
 
-  -----------------------------------------------------------------------------
-
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
@@ -190,7 +163,7 @@ return {
           "tsx",
           "typescript",
           "python",
-          "markdown",
+          -- "markdown",
         },
         auto_install = false,
         highlight = { enable = true },
@@ -201,45 +174,81 @@ return {
     end,
   },
 
-  -----------------------------------------------------------------------------
+  {
+    "williamboman/mason.nvim",
+    build = ":MasonUpdate",
+    opts = {},
+  },
 
   {
-    "junnplus/lsp-setup.nvim",
+    "neovim/nvim-lspconfig",
     lazy = false,
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "williamboman/mason.nvim",           -- optional
-      "williamboman/mason-lspconfig.nvim", -- optional
-    },
     config = function()
-      require("lsp-setup").setup({
-        default_mappings = false,
-        mappings = {
-          ["F"] = "lua vim.lsp.buf.hover()",
-          ["f"] = "lua vim.diagnostic.open_float()",
-          ["[d"] = "lua vim.diagnostic.goto_prev()",
-          ["]d"] = "lua vim.diagnostic.goto_next()",
-        },
-        on_attach = function(client, bufnr) end,
-        capabilities = vim.lsp.protocol.make_client_capabilities(),
-        servers = {
-          tsserver = {},
-          tailwindcss = {},
-          lua_ls = {
-            settings = {
-              Lua = {
-                diagnostics = {
-                  globals = { "vim" },
-                },
-              },
-            },
-          },
-        },
+      local lspconfig = require("lspconfig")
+
+      lspconfig.tsserver.setup({})
+      lspconfig.tailwindcss.setup({})
+
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(_)
+          vim.keymap.set('n', 'F',  '<cmd>lua vim.lsp.buf.hover()<CR>')
+          vim.keymap.set('n', 'f', '<cmd>lua vim.diagnostic.open_float()<CR>')
+          vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
+          vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
+
+          vim.fn.sign_define("DiagnosticSignError", { text = "🔴" })
+          vim.fn.sign_define("DiagnosticSignWarn", { text = "🟡" })
+          vim.fn.sign_define("DiagnosticSignInfo", { text = "🔵" })
+          vim.fn.sign_define("DiagnosticSignHint", { text = "🟢" })
+
+          vim.o.pumheight = 15
+          vim.diagnostic.config({ underline = true, virtual_text = false })
+        end
       })
     end,
   },
 
-  -----------------------------------------------------------------------------
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    laze = false,
+    config = function()
+      local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
+      local event = "BufWritePre"
+      local async = event == "BufWritePost"
+
+      require("null-ls").setup({
+        on_attach = function(client, bufnr)
+          if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+            vim.api.nvim_create_autocmd(event, {
+              buffer = bufnr,
+              group = group,
+              callback = function()
+                vim.lsp.buf.format({ bufnr = bufnr, async = async })
+              end,
+              desc = "[lsp] format on save",
+            })
+          end
+        end,
+      })
+    end,
+  },
+
+  {
+    "MunifTanjim/prettier.nvim",
+    lazy = false,
+    opts = {
+      bin = 'prettierd', -- or `'prettierd'` (v0.23.3+)
+      filetypes = {
+        "javascript",
+        "javascriptreact",
+        "json",
+        "typescript",
+        "typescriptreact",
+        "yaml",
+      },
+    },
+  },
 
   {
     "hrsh7th/nvim-cmp",
@@ -250,7 +259,6 @@ return {
       "hrsh7th/cmp-buffer",
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
-      "Jezda1337/cmp_bootstrap",
     },
     config = function()
       local cmp = require("cmp")
@@ -266,7 +274,6 @@ return {
           { name = "path" },
           { name = "buffer" },
           { name = "luasnip" },
-          { name = 'bootstrap' },
         },
         mapping = cmp.mapping.preset.insert({
           ["<S-Tab>"] = cmp.mapping.select_prev_item(),
@@ -283,48 +290,11 @@ return {
               nvim_lsp = "[LSP]",
               path = "[Path]",
               luasnip = "[Snippet]",
-              bootstrap = "[Bootstrap]",
             })[entry.source.name]
             return item
           end,
         },
       })
-
-      require("bootstrap-cmp.config").setup({
-        file_types = { "typescriptreact" },
-      })
     end,
-  },
-
-  -----------------------------------------------------------------------------
-
-  {
-    "elentok/format-on-save.nvim",
-    lazy = false,
-    config = function()
-      local format_on_save = require("format-on-save")
-      local formatters = require("format-on-save.formatters")
-
-      format_on_save.setup({
-        exclude_path_patterns = {
-          "/node_modules/",
-          ".local/share/nvim/lazy",
-        },
-        formatter_by_ft = {
-          lua = formatters.lsp,
-          markdown = formatters.lsp,
-          json = formatters.prettierd,
-          yaml = formatters.prettierd,
-          css = formatters.prettierd,
-          javascript = formatters.prettierd,
-          typescript = formatters.prettierd,
-          typescriptreact = formatters.prettierd,
-        },
-        fallback_formatter = {
-          formatters.remove_trailing_whitespace,
-          formatters.remove_trailing_newlines,
-        },
-      })
-    end
   },
 }
