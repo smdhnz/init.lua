@@ -175,12 +175,6 @@ return {
   },
 
   {
-    "williamboman/mason.nvim",
-    build = ":MasonUpdate",
-    opts = {},
-  },
-
-  {
     "neovim/nvim-lspconfig",
     lazy = false,
     config = function()
@@ -188,6 +182,7 @@ return {
 
       lspconfig.tsserver.setup({})
       lspconfig.tailwindcss.setup({})
+      lspconfig.jedi_language_server.setup({})
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(_)
