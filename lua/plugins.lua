@@ -162,14 +162,13 @@ return {
           "yaml",
           "tsx",
           "typescript",
-          "python",
           -- "markdown",
         },
         auto_install = false,
         highlight = { enable = true },
         autotag = { enable = true },
         indent = { enable = false },
-        yati = { enable = true, disable = { "python", "markdown" } },
+        yati = { enable = true, disable = { "markdown" } },
       })
     end,
   },
@@ -182,7 +181,6 @@ return {
 
       lspconfig.tsserver.setup({})
       lspconfig.tailwindcss.setup({})
-      lspconfig.jedi_language_server.setup({})
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(_)
@@ -205,7 +203,7 @@ return {
 
   {
     "jose-elias-alvarez/null-ls.nvim",
-    laze = false,
+    lazy = false,
     config = function()
       local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
       local event = "BufWritePre"
@@ -232,17 +230,21 @@ return {
   {
     "MunifTanjim/prettier.nvim",
     lazy = false,
-    opts = {
-      bin = 'prettierd', -- or `'prettierd'` (v0.23.3+)
-      filetypes = {
-        "javascript",
-        "javascriptreact",
-        "json",
-        "typescript",
-        "typescriptreact",
-        "yaml",
-      },
-    },
+    config = function()
+      local prettier = require("prettier")
+
+      prettier.setup({
+        bin = 'prettierd', -- or `'prettierd'` (v0.23.3+)
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "json",
+          "typescript",
+          "typescriptreact",
+          "yaml",
+        },
+      })
+    end
   },
 
   {
