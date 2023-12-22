@@ -25,7 +25,7 @@ return {
 					keywords = { italic = false },
 				},
 				hide_inactive_statusline = true,
-				dim_inactive = true,
+				dim_inactive = false,
 				lualine_bold = true,
 			})
 			vim.cmd([[colorscheme tokyonight-moon]])
