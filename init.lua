@@ -369,12 +369,39 @@ require("lazy").setup({
     config = function()
       local lspconfig = require("lspconfig")
 
+      -- hoverの設定
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+        vim.lsp.handlers.hover,
+        {
+          border = "rounded",
+          max_width = 60,
+          max_height = 15,
+        }
+      )
+
+      -- Diagnostic 表示設定
+      vim.diagnostic.config({
+        virtual_text = false,
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+        float = {
+          border = "rounded",
+          source = "always",
+          prefix = "● ",
+        },
+      })
+
+      local last_diag_messages = nil
+
       -- 共通on_attach（フォーマット等）
       local on_attach = function(client, bufnr)
         local buf_map = function(mode, lhs, rhs)
           vim.keymap.set(mode, lhs, rhs, { buffer = bufnr })
         end
         buf_map("n", "F", vim.lsp.buf.hover)
+        buf_map("n", "f", vim.diagnostic.open_float)
       end
 
       -- Pyright
