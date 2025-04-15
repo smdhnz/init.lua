@@ -108,4 +108,55 @@ all-cat() {
     done
   done
 }
+
+function tree() {
+    local dir="$1"
+    local prefix="$2"
+    local EXCLUDE_DIRS=(".venv" "node_modules" "dist" ".git" "__pycache__")
+    is_excluded() {
+        local dir_name="$1"
+        for exclude in "${EXCLUDE_DIRS[@]}"; do
+            if [ "$exclude" = "$dir_name" ]; then
+                return 0
+            fi
+        done
+        return 1
+    }
+    if [ ! -d "$dir" ]; then
+        echo "指定したパスがディレクトリではありません: $dir"
+        return
+    fi
+    # ファイル名にスペースが含まれていても安全に処理
+    local entries=()
+    while IFS= read -r entry; do
+        entries+=("$entry")
+    done < <(ls -A "$dir")
+    local total=${#entries[@]}
+    local count=0
+    for file in "${entries[@]}"; do
+        local fullpath="$dir/$file"
+        local connector="├──"
+        local new_prefix="${prefix}│   "
+        if [ $count -eq $((total - 1)) ]; then
+            connector="└──"
+            new_prefix="${prefix}    "
+        fi
+        if is_excluded "$file"; then
+            # 除外対象 → 表示のみ（再帰しない）
+            if [ -d "$fullpath" ]; then
+                echo "${prefix}${connector} $file/"
+            else
+                echo "${prefix}${connector} $file"
+            fi
+        else
+            if [ -d "$fullpath" ]; then
+                echo "${prefix}${connector} $file/"
+                tree "$fullpath" "$new_prefix"
+            else
+                echo "${prefix}${connector} $file"
+            fi
+        fi
+        count=$((count + 1))
+    done
+}
 ```
