@@ -151,6 +151,19 @@ require("lazy").setup({
     opts = {},
   },
   {
+    -- LazyGit
+    "kdheepak/lazygit.nvim",
+    lazy = true,
+    keys = {
+      { "q", "<CMD>LazyGit<CR>", silent = true, noremap = true },
+    },
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      vim.g.lazygit_floating_window_scaling_factor = 1
+      vim.g.lazygit_floating_window_border_chars = { "", "", "", "", "", "", "", "" }
+    end,
+  },
+  {
     -- Telescope (ファジー検索)
     'nvim-telescope/telescope.nvim',
     branch = "0.1.x",
