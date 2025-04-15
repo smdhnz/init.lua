@@ -380,8 +380,6 @@ require("lazy").setup({
         },
       })
 
-      local last_diag_messages = nil
-
       -- 共通on_attach（フォーマット等）
       local on_attach = function(client, bufnr)
         local buf_map = function(mode, lhs, rhs)
